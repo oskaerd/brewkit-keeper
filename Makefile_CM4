@@ -11,11 +11,12 @@ OPT = -Og
 #######################################
 # paths
 #######################################
-# Build path
-BUILD_DIR = build
 
 # Set the root DIR to CM4
 CORE_DIR = CM4
+
+# Build path
+BUILD_DIR = build/$(CORE_DIR)
 
 C_SOURCES = \
 $(CORE_DIR)/Core/Src/main.c \
