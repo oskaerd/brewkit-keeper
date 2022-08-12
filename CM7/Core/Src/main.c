@@ -458,7 +458,9 @@ void StartDefaultTask(void *argument)
   {
     //osDelay(1);
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+    HAL_Delay(200);
     HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
+    HAL_Delay(300);
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
     HAL_Delay(500);
   }
