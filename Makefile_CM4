@@ -49,9 +49,8 @@ Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_i2c_ex.c \
 Common/Src/system_stm32h7xx_dualcore_boot_cm4_cm7.c \
 
 # ASM sources
-# TODO: move out of the MDK-ARM
 ASM_SOURCES =  \
-MDK-ARM/startup_stm32h745xx_CM4.s
+startup_stm32h745xx_CM4.s
 
 #######################################
 # binaries
@@ -77,7 +76,7 @@ BIN = $(CP) -O binary -S
 # CFLAGS
 #######################################
 # cpu
-CPU = -mcpu=cortex-m7
+CPU = -mcpu=cortex-m4
 
 # fpu
 FPU = -mfpu=fpv5-d16

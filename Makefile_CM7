@@ -62,7 +62,7 @@ Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F/port.c \
 
 # ASM sources
 ASM_SOURCES =  \
-MDK-ARM/startup_stm32h745xx_CM7.s
+startup_stm32h745xx_CM7.s
 
 #######################################
 # binaries
