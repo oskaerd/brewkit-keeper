@@ -96,7 +96,13 @@ static void GPIO_PinsInit(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
+{
+  const char *data = "hi there";
+  HAL_UART_Transmit(&huart3, (uint8_t *)data, strlen(data), 500);
+  HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
+  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+}
 /* USER CODE END 0 */
 
 /**
@@ -453,7 +459,7 @@ static void GPIO_PinsInit(void)
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
@@ -480,10 +486,10 @@ void StartDefaultTask(void *argument)
     //osDelay(1);
 
     // HAL_Delay(200);
-    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
+    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
     // HAL_Delay(300);
     // 
-    if (HAL_GPIO_ReadPin(GPIOE, GPIO_PIN_9) != GPIO_PIN_SET)
+    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) != GPIO_PIN_SET)
     {
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1);
     }
@@ -491,9 +497,7 @@ void StartDefaultTask(void *argument)
     {
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 0);
     }
-    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
-    HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
-    HAL_Delay(500);
+    HAL_Delay(100);
 
   }
   /* USER CODE END 5 */
