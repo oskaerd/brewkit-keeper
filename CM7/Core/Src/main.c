@@ -100,8 +100,7 @@ void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
 {
   const char *data = "hi there";
   HAL_UART_Transmit(&huart3, (uint8_t *)data, strlen(data), 500);
-  HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_1);
-  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
+  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
 }
 /* USER CODE END 0 */
 
@@ -143,30 +142,18 @@ int main(void)
 HSEM notification */
 /*HW semaphore Clock enable*/
 __HAL_RCC_HSEM_CLK_ENABLE();
-/*Take HSEM */
-HAL_HSEM_FastTake(HSEM_ID_0);
-/*Release HSEM in order to notify the CPU2(CM4)*/
-HAL_HSEM_Release(HSEM_ID_0,0);
-/* wait until CPU2 wakes up from stop mode */
-// timeout = 0xFFFF;
-// while((__HAL_RCC_GET_FLAG(RCC_FLAG_D2CKRDY) == RESET) && (timeout-- > 0));
-// if ( timeout < 0 )
-// {
-// Error_Handler();
-// }
-/* USER CODE END Boot_Mode_Sequence_2 */
-
-  /* USER CODE BEGIN SysInit */
+/*Take HSEM */const char *data = "hi there";
+  // HAL_UART_Transmit(&huart3, (uint8_t *)data, strlen(data), 500);
 
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  GPIO_PinsInit();
   MX_ETH_Init();
   MX_USART3_UART_Init();
   MX_USB_OTG_FS_PCD_Init();
   /* USER CODE BEGIN 2 */
-  GPIO_PinsInit();
 
   /* USER CODE END 2 */
 
@@ -459,10 +446,13 @@ static void GPIO_PinsInit(void)
 
   /*Configure GPIO pin : PC13 */
   GPIO_InitStruct.Pin = GPIO_PIN_13;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 }
 
 
@@ -489,14 +479,14 @@ void StartDefaultTask(void *argument)
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_14);
     // HAL_Delay(300);
     // 
-    if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) != GPIO_PIN_SET)
-    {
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1);
-    }
-    else
-    {
-      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 0);
-    }
+    // if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) != GPIO_PIN_SET)
+    // {
+    //   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 1);
+    // }
+    // else
+    // {
+    //   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, 0);
+    // }
     HAL_Delay(100);
 
   }
